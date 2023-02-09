@@ -4,7 +4,7 @@
 <!--The head tag describes our html page-->
 
 <head>
-    <title>App Name: A Coding Challenge</title>
+    <title>AnnaDrome: A Coding Challenge by Anna Baschnagel</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
@@ -39,7 +39,7 @@
             <div class="container-fluid">
                 <a class="navbar-brand fs-1" href="/index.html"><img
                         src="/img/For Web/svg/White logo - no background.svg" height="100" />
-                    <span class="ms-5 app-name">App Name</span>
+                    <span class="ms-5 app-name">AnnaDrome</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -61,10 +61,10 @@
                         </li>
                         <!-- ADD THIS IN BEFORE PUBLISHING -->
                         <li class="nav-item p-3">
-                            <a class="nav-link" href="#">The Repo</a>
+                            <a class="nav-link" href="https://github.com/baschnagelac/acbTacoCatFinal.git" target="_blank">The Repo</a>
                         </li>
                         <li class="nav-item p-3">
-                            <a class="nav-link" href="#">About</a>
+                            <a class="nav-link" href="https://annabaschnagelportfolio.netlify.app/" target="_blank">About</a>
                         </li>
                         <li class="nav-item p-3">
                             <a class="nav-link" href="#">Blog</a>
@@ -81,21 +81,62 @@
 
     <main class="content container  mt-5">
         <div class="row row-cols-1 row-cols-lg-2 p-3">
-            <h1 class=" border-bottom border-2 border-dark">The Code for APP</h1>
+            <h1 class=" border-bottom border-2 border-dark codeTitle">The Code for AnnaDrome</h1>
             <!-- source code -->
             <div class="col-12 col-lg-8">
                 <pre class="line-numbers">
                         <code class="language-javascript ">
-                            function displayMessage() {
-                                let msg = document.getElementById('message').value;
+                            //get our user input 
+                            function getValue() {
+                                //make sure alert is invisible
+                                document.getElementById('alert').classList.add('invisible');
+                                //get user string for the page 
+                                let userString = document.getElementById('userString').value;
                             
-                                Swal.fire(
-                                    {
-                                        backdrop: false,
-                                        title: 'App Name',
-                                        text: msg
+                                //check for palindrome
+                                let returnObj = checkForPalindrome(userString);
+                            
+                                //display out message to the screen
+                                dislpayMessage(returnObj);
+                            
+                            
+                            }
+                            
+                            //check if string is palindrome
+                            function checkForPalindrome(userString) {
+                            
+                                //taco cat
+                                userString = userString.toLowerCase();
+                            
+                                //remove spaces and special characters
+                                let regex = /[^a-z0-9]/gi;
+                                userString = userString.replace(regex,"");
+                            
+                                //reverse string
+                            
+                                let revString = [];
+                                let returnObj = {};
+                            
+                                for (let index = userString.length - 1; index >= 0; index--) {
+                                    revString += userString[index];
+                            
+                                    if(revString == userString) {
+                                        returnObj.msg = "Nice! You entered a palindrome!"
                                     }
-                                )
+                                    else {
+                                        returnObj.msg = "Sorry! You did not enter a palindrome."
+                                    }
+                                }
+                                returnObj.reversed = revString;
+                            
+                                return returnObj;
+                            }
+                            
+                            //display a message to the string
+                            function dislpayMessage(returnObj) {
+                                document.getElementById('alertHeader').innerHTML = returnObj.msg;
+                                document.getElementById('msg').innerHTML = `Your phrase reversed is: ${returnObj.reversed}`;
+                                document.getElementById('alert').classList.remove('invisible');
                             }
                             
                         </code>
@@ -104,16 +145,30 @@
             <!-- code description -->
             <div class="col-12 col-lg-4">
                 <h5>The code is structured in three functions</h5>
-                <p>The first function <code>function getValues()</code> gets the user's input from the page and acts as
-                    a controller function or entry point. It then gets the starting and ending values from the page.
-                    Next, it parses the inputs as numbers and verifies that they ARE numbers. If they ARE numbers, the
-                    numbers are generated and displayed on the page. If they are not, we tell the user with an Sweet
-                    Alert.</p>
-                <p>The second function <code>function generateNumbers(start, end)</code>generates our numbers and
-                    contains the logic parts of the function by running a for loop. </p>
-                <p>The third function <code>function displayNumbers(numberArray)</code> acts as the view function and
-                    displays the numbers on the page. Within this function, we use a for loop and if statements to
-                    control the display of the results.</p>
+                <code>function getValue()</code>
+                <p>is the controller function where the program begins by getting the user's input. First, the program
+                makes sure that the invisible class on the alert-ID is added so that the user doesn't see the alert
+                message for checking if their string is a palindrome before the app starts. Next, the program gets the
+                userString from the page via getElementById. Next, it checks the palindrome by calling the following
+                logic function for checkForPalindrome. It also calls the displayMessage function so that the message
+                ultimately is displayed for the user.</p>
+                <code>function checkForPalindrome</code>
+                <p>is the logic functino where the program checks if the the string is a palindrome. First, it calls for
+                the userString to be taken in as all lower case letters so that there is no confusion for proper nouns
+                or capital letters. Next, the program employs regex so that only letters and integers are "read" by the
+                program, special characters like "!" or "?" are not counted in the string for the palindrome checker.
+                Then, the program begins the logic to reverse the string. Reversing a string begins with declaring
+                revString as an empty array and returnObj as an empty object. Next, it uses a for-loop to loop through
+                the string backwards. An if/else statement is used to determine if the reversed string is the same as
+                the user's input. If it isn't, a display message says "Sorry! You did not enter a palindrome." If the
+                string IS reversed and it's the same as the user input, it will display "Nice! You entered a palindrome"
+                The logic function concludes by declaring returnObj that's reversed is equal to the reversed string and
+                then returning the returnObj.</p>
+                <code>function displayMessage</code>>
+                <p>is the view function. This function sends the user a "view" to see. They will see an alert header with
+                the return object message by removing the invisible class on the alert-ID. The code uses a template
+                literal and embedded expression to display the standard message with the addition of the user's string
+                that's reversed as well as the "Nice!" or "Sorry!" for whether it's a palindrome or not.</p>
 
             </div>
         </div>
@@ -163,7 +218,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
-        <script src="js/site.js"></script>
+    <script src="js/site.js"></script>
     <script src="js/prism.js"></script>
     <script>
         Prism.plugins.NormalizeWhitespace.setDefaults({
